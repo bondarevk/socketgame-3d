@@ -45,6 +45,8 @@ const IOCore = {
                 input.keyboard = new Map();
                 input.mouse = new Mouse();
             }
+            input.cameraDirection = packet.cameraDirection;
+
             socket.player.input = input;
         });
 

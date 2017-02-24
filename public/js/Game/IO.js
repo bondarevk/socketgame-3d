@@ -52,7 +52,11 @@ const IO = {
         },
 
         inputLoop: () => {
-            IO.socket.emit('clientInput', Input.getInput());
+            let input = Input.getInput();
+            let d;
+            input.cameraDirection = Game.cameraControls.controls.getDirection(d);
+
+            IO.socket.emit('clientInput', input);
         }
     }
 
