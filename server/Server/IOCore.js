@@ -3,6 +3,7 @@ const expressServer = express();
 const httpServer = require('http').Server(expressServer);
 
 const IOUtils = require('../Utils/IOUtils');
+const TickManager = require('./TickManager');
 //const ServerUtils = require('../Utils/ServerUtils');
 //const GameUtils = require('../Utils/GameUtils');
 
@@ -29,6 +30,28 @@ const IOCore = {
 
     initEvents: (socket) => {
 
+        socket.on('clientInput', (packet) => {
+            function Mouse(isDown, button) {
+                this.isDown = isDown || false;
+                this.button = button || 1;
+            }
+
+            let input = {};
+            try {
+                input.keyboard = new Map(packet.keyboard);
+                input.mouse = new Mouse(packet.mouse.isDown, packet.mouse.button);
+            } catch (err) {
+                input.keyboard = new Map();
+                input.mouse = new Mouse();
+            }
+            //socket.player.input = input;
+
+            if (input.mouse.isDown === true) {
+                console.log(input);
+            }
+
+        });
+
     },
 
     onConnect: (socket) => {
@@ -42,10 +65,11 @@ const IOCore = {
 
 
     Packet: {
-        clientRunUp: (id) => {
+        clientRunUp: () => {
             let packet = {};
 
             packet.inputReq = [87, 83, 65, 68, 16];
+            packet.tickrate = TickManager.tickrate;
 
             return packet;
         }
