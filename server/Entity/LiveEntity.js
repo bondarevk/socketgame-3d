@@ -5,6 +5,8 @@ class LiveEntity extends Entity {
     constructor() {
         super();
 
+        this.requireTick = true;
+
         this.hp = {
             current: 10,
             max: 10
@@ -44,6 +46,7 @@ class LiveEntity extends Entity {
 
     onTick(tick) {
         super.onTick();
+
 
         //this.posX = this.posX + (this.movement.vX * (this.movement.speed / TickManager.tickrate));
         //this.posY = this.posY + (this.movement.vY * (this.movement.speed / TickManager.tickrate));

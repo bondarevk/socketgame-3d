@@ -33,6 +33,28 @@ const IO = {
             IO.InputTimer.start(1000 / packet.tickrate);
         });
 
+
+        // Получение обновлений для сущностей
+        IO.socket.on('clientEntityMapUpdate', (packet) => {
+            let entityMap = packet.entityMap;
+
+            Object.keys(entityMap).map(function(key, index) {
+                let entity = entityMap[key];
+
+                GameUtils.updateEntity(entity);
+            });
+        });
+
+        // Спавн сущности
+        IO.socket.on('spawnEntity', (packet) => {
+            GameUtils.addEntity(packet);
+        });
+
+        // Удаление сущности
+        IO.socket.on('despawnEntity', (packet) => {
+            GameUtils.deleteEntityById(packet);
+        });
+
     },
 
 

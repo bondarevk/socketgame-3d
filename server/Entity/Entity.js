@@ -5,19 +5,18 @@ class Entity {
     constructor() {
         this.id = MathUtils.guid();
 
+        this.updateNeeded = false;
+        this.requireTick = false;
+
         this.posX = 0.0;
         this.posY = 0.0;
         this.posZ = 0.0;
-
-
-        this.width = 39;
-        this.height = 55;
 
         this.type = ['BaseEntity'];
     }
 
     onTick(tick) {
-
+        this.requestUpdate();
     }
 
     onDespawn() {
@@ -38,6 +37,10 @@ class Entity {
         };
 
         return packet;
+    }
+
+    requestUpdate() {
+        this.updateNeeded = true;
     }
 }
 

@@ -75,7 +75,21 @@ const IOCore = {
             packet.tickrate = TickManager.tickrate;
 
             return packet;
-        }
+        },
+
+        clientEntityMapUpdate: () => {
+            let packet = {};
+            packet.entityMap = { };
+
+            global.Server.globalEntityMap.forEach((entity, id) => {
+                if (entity.updateNeeded === true) {
+                    packet.entityMap[id] = entity.generatePacket();
+                    entity.updateNeeded = false;
+                }
+            });
+
+            return packet;
+        },
     }
 
 };
