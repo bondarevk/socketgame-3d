@@ -58,6 +58,7 @@ const IOCore = {
 
         IOUtils.clientRunUp(socket);
         IOUtils.spawnEntity(socket.player);
+        IOUtils.bindCamera(socket, socket.player.id)
     },
 
     onDisconnect: (socket) => {
@@ -95,6 +96,11 @@ const IOCore = {
 
             return packet;
         },
+
+        bindCamera: (camera) => {
+            // Привязать камеру к объекту или координатам
+            return camera;
+        }
     }
 
 };

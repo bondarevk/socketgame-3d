@@ -8,12 +8,19 @@ let Game = {
 
     stats: undefined,
     clock: undefined,
+    cameraBind: {
+        dX: 0,
+        dY: 0,
+        dZ: 0,
+        eID: null
+    },
 
     time: 0,
 
     globalEntityMap: new Map(),
 
     cameraControls: {
+        firstPerson: true,
         camera: undefined,
 
         controls: undefined,
@@ -57,6 +64,11 @@ let Game = {
         // Сцена
         Game.scene = new THREE.Scene();
         Game.clock = new THREE.Clock();
+        Game.scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
+
+        let light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
+        light.position.set( 0.5, 1, 0.75 );
+        Game.scene.add( light );
 
         // Камера
         Game.cameraControls.camera = new THREE.PerspectiveCamera(75, Game.container.clientWidth / Game.container.clientHeight, 1, 1000);
@@ -115,7 +127,7 @@ let Game = {
 
         let ground = RenderUtils.addBox(0, -2, 0, 100, 1, 100);
 
-        Game.textureLoader.load("textures/grid.png", function (texture) {
+        Game.textureLoader.load("textures/grass.jpg", function (texture) {
             texture.wrapS = THREE.RepeatWrapping;
             texture.wrapT = THREE.RepeatWrapping;
             texture.repeat.set(40, 40);
@@ -133,6 +145,7 @@ let Game = {
 
     render: () => {
         let deltaTime = Game.clock.getDelta();
+        GameUtils.updateCameraPos();
         Game.renderer.render(Game.scene, Game.cameraControls.camera);
         Game.time += deltaTime;
     },

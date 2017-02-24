@@ -2,8 +2,8 @@
 
 let RenderUtils = {
 
-    addBox: (x, y, z, width, height, depth, castShadow, receiveShadow) => {
-        let material = new THREE.MeshPhongMaterial({color: 0xFFFFFF});
+    addBox: (x, y, z, width, height, depth, color, castShadow, receiveShadow) => {
+        let material = new THREE.MeshPhongMaterial({color: color || 0xFFFFFF});
         let mesh = new THREE.Mesh(new THREE.BoxGeometry(
             width || 1,
             height || 1,
