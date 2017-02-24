@@ -21,6 +21,7 @@ const IO = {
             IO.InputTimer.stop();
         });
 
+        Chat.initIO(IO.socket);
 
         // Подготовка клиента
         IO.socket.on('clientRunUp', (packet) => {

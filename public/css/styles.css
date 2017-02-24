@@ -1,3 +1,9 @@
+@font-face {
+    /*подключаем свои шрифты*/
+    font-family: 'MainFont';/* 'даём сами имя шрифту'*/
+    src: url(../fonts/Play-Regular.ttf);/*перед скобками не должно быть пробелов*/
+}
+
 ::-webkit-scrollbar {
     display: none;
 }
@@ -20,7 +26,7 @@ html, body {
 #game {
     position: fixed;
     left: 0;
-    width: 100%;
+    width: 80%;
     height: 100%;
 }
 
@@ -34,4 +40,198 @@ html, body {
     width: 100%;
     height: 100%;
     background-color: rgba(0,0,0,0.5);
+}
+
+/*Chat*/
+
+#chat {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 20%;
+    height: 100%;
+    display: flex;
+    flex-flow: column;
+    min-height: 480px;
+    min-width: 258px;
+    overflow-y: auto;
+}
+.label {
+    font-family: MainFont, serif;
+    font-weight: 400;
+    font-size: 30px;
+    color: #F2F2F2;
+    margin: auto;
+}
+
+.item {
+    background-color: #78B518;
+    border: 4px outset #808080;
+    border-radius: 10px;
+}
+
+/*Nickname grid*/
+.nick-container {
+    flex: 0 1 auto;
+    display: flex;
+    align-items: stretch;
+    height: 50px;
+}
+
+.nick-title {
+    margin: auto 10px;
+}
+
+/*Online players grid*/
+.online-container {
+    flex: 1 1 auto;
+    max-height: 300px;
+    display:flex;
+    flex-flow: column;
+}
+
+.title-item {
+    flex: 0 1 auto;
+    height: 30px;
+    margin: 10px 10px 0 10px;
+    display: flex;
+}
+
+.title-item span{
+    margin: 0;
+}
+
+.onlineBox {
+    margin: 10px;
+    flex: 1 1 auto;
+    background-color: #bad7a6;
+    border: 2pt solid #808080;
+    overflow-y: auto;
+}
+
+.list-item {
+    padding: 5px;
+    margin: 0;
+    list-style-type: none;
+}
+
+.list-item li {
+    font-family: MainFont, serif;
+    font-size: 15px;
+    color: #808080;
+    padding: 1px 5px;
+}
+
+/*Chat grid*/
+.chat-container {
+    flex-flow: column;
+    flex: 1 1 auto;
+    display:flex;
+}
+
+#wrapper {
+    position: relative;
+    width: 92%;
+    margin: 10px 3.2%;
+    border: 2pt solid #808080;
+    background: #bad7a6;
+    overflow: hidden;
+    flex: 1 1 auto;
+}
+
+#scroller {
+    position: absolute;
+    width: 100%;
+}
+
+#scroller ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    text-align: left;
+}
+
+.msg-0 {
+    opacity: 0.75;
+    display: block;
+    margin: 10px 60px 10px 8px;
+    background-color: #AED374;
+    border: 3pt solid #416803;
+    height: auto;
+}
+
+.msg-1 {
+    opacity: 0.75;
+    display: block;
+    margin: 10px 8px 10px 60px;
+    background-color: #78B518;
+    border: 3pt solid #213402;
+    height: auto;
+}
+
+.author {
+    padding: 1px 5px 0 2px;
+}
+
+.author p {
+    word-wrap: normal;
+    font-family: MainFont, serif;
+    font-weight: 800;
+    font-size: 10pt;
+    color: #341E11;
+    margin: 0;
+    line-height: 14px;
+}
+
+.text {
+    padding: 0 1px 2px 5px;
+}
+
+.text p {
+    word-wrap: normal;
+    font-family: MainFont, serif;
+    font-weight: 500;
+    font-size: 12pt;
+    color: #87644F;
+    margin: 0;
+    line-height: 18px;
+}
+
+.date {
+    padding: 0px;
+}
+
+.date p {
+    font-family: MainFont, serif;
+    font-weight: 700;
+    font-size: 8pt;
+    color: #341e11;
+    margin: 0;
+    line-height: 12px;
+    text-align: right;
+}
+
+.message-container {
+    display: flex;
+    height: 28px;
+    width: 92%;
+    margin: 0 4% 10px 4%;
+    flex: 0 1 auto;
+    flex-flow: row;
+}
+
+.send-button {
+    height: 28px;
+    width: 28px;
+    margin-left: 8px;
+    background: grey;
+    background-size: cover;
+}
+.message-input {
+    font-family: MainFont, serif;
+    width: 100%;
+    font-weight: 600;
+    font-size: 14pt;
+    color: #999999;
 }
