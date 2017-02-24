@@ -79,25 +79,35 @@ class Player extends LiveEntity {
             let vY = 0;
             let vZ = 0;
 
-            if (keyboard.get(65) === true) {
-                vX -= 1.0;
-            }
+            let obj = new global.THREE.Object3D();
+            obj.position.x = this.posX;
+            obj.position.y = this.posY;
+            obj.position.z = this.posZ;
+            obj.rotation.y = this.input.cameraDirection.yaw;
+            obj.rotation.x = this.input.cameraDirection.pitch;
 
-            if (keyboard.get(68) === true) {
+
+            if (keyboard.get(65) === true) {
                 vX += 1.0;
             }
 
-            if (keyboard.get(87) === true) {
-                vZ += 1.0;
+            if (keyboard.get(68) === true) {
+                vX -= 1.0;
             }
 
-            if (keyboard.get(83) === true) {
+            if (keyboard.get(87) === true) {
                 vZ -= 1.0;
             }
 
-            this.movement.vX = vX;
-            this.movement.vY = vY;
-            this.movement.vZ = vZ;
+            if (keyboard.get(83) === true) {
+                vZ += 1.0;
+            }
+
+            obj.translateX(vX);
+            obj.translateZ(vZ);
+
+            this.posX = obj.position.x;
+            this.posZ = obj.position.z;
         }
 
         if (this.input.mouse.isDown === true) {

@@ -1,5 +1,6 @@
 global.Server = require('./Server/Server');
 global.IOCore = require('./Server/IOCore');
+global.THREE = require('./libs/three.module');
 
 if (!String.prototype.format) {
     String.prototype.format = function() {
