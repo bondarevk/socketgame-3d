@@ -1,21 +1,17 @@
-let express = require('express');
-let expressServer = express();
-let httpServer = require('http').Server(expressServer);
-const io = require('socket.io')(httpServer);
+global.Server = require('./Server/Server');
+global.IOCore = require('./Server/IOCore');
 
-const serverPort = 80;
+if (!String.prototype.format) {
+    String.prototype.format = function() {
+        let args = arguments;
+        return this.replace(/{(\d+)}/g, function(match, number) {
+            return typeof args[number] != 'undefined'
+                ? args[number]
+                : match
+                ;
+        });
+    };
+}
 
-expressServer.use(express.static('../public'));
-httpServer.listen(serverPort, function () {
-    console.log('Сервер запущен. *:' + serverPort);
-});
-
-io.on('connection', function (socket) {
-    console.log(socket.id + 'Connect');
-
-
-
-    socket.on('disconnect', function () {
-        console.log(socket.id + 'Disconnect');
-    });
-});
+global.Server.init();
+global.IOCore.init();
