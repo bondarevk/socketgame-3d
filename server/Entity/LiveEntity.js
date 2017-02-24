@@ -16,7 +16,7 @@ class LiveEntity extends Entity {
             vX: 0.0,
             vY: 0.0,
             vZ: 0.0,
-            speed: 200.0
+            speed: 20.0
         };
 
         this.type.push('BaseLiveEntity');
@@ -47,9 +47,9 @@ class LiveEntity extends Entity {
     onTick(tick) {
         super.onTick();
 
-
-        //this.posX = this.posX + (this.movement.vX * (this.movement.speed / TickManager.tickrate));
-        //this.posY = this.posY + (this.movement.vY * (this.movement.speed / TickManager.tickrate));
+        this.posX = this.posX + (this.movement.vX * (this.movement.speed / TickManager.tickrate));
+        this.posY = this.posY + (this.movement.vY * (this.movement.speed / TickManager.tickrate));
+        this.posZ = this.posZ + (this.movement.vZ * (this.movement.speed / TickManager.tickrate));
     }
 
     generatePacket() {

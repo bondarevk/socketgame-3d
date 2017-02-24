@@ -15,11 +15,3 @@ if (!String.prototype.format) {
 
 global.Server.init();
 global.IOCore.init();
-
-let IOUtils = require('./Utils/IOUtils');
-let Entity = require('./Entity/Entity');
-let testEntity = new Entity();
-testEntity.posX = 24;
-testEntity.posY = 10;
-testEntity.posZ = 24;
-IOUtils.spawnEntity(testEntity)

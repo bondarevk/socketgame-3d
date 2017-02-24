@@ -21,11 +21,22 @@ let GameUtils = {
     },
 
     updateEntity: (entity) => {
-        if (Game.globalEntityMap.has(entity.id)) {
-
+        if (Game.globalEntityMap.has(entity.id) === false) {
+            return;
         }
 
-        //console.log('upd');
+        let localEntity = Game.globalEntityMap.get(entity.id);
+
+
+        // Position
+        localEntity.posX = entity.posX;
+        localEntity.posY = entity.posY;
+        localEntity.posZ = entity.posZ;
+        localEntity.Object3D.position.x = localEntity.posX;
+        localEntity.Object3D.position.y = localEntity.posY;
+        localEntity.Object3D.position.z = localEntity.posZ;
+
+
     },
 
     clearEntities: () => {

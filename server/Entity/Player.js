@@ -79,7 +79,21 @@ class Player extends LiveEntity {
             let vY = 0;
             let vZ = 0;
 
+            if (keyboard.get(65) === true) {
+                vX -= 1.0;
+            }
 
+            if (keyboard.get(68) === true) {
+                vX += 1.0;
+            }
+
+            if (keyboard.get(87) === true) {
+                vZ += 1.0;
+            }
+
+            if (keyboard.get(83) === true) {
+                vZ -= 1.0;
+            }
 
             this.movement.vX = vX;
             this.movement.vY = vY;
