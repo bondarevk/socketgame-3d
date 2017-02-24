@@ -12,6 +12,13 @@ const TickManager = {
 
     serverTick: () => {
 
+        // Тики
+        global.Server.globalEntityMap.forEach((entity, id, map) => {
+            if (entity.alive !== false) {
+                entity.onTick(TickManager._currentTick);
+            }
+        });
+
         //IOUtils.clientEntityMapUpdate();
 
         TickManager._currentTick++;

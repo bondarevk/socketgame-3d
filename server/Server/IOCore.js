@@ -4,6 +4,7 @@ const httpServer = require('http').Server(expressServer);
 
 const IOUtils = require('../Utils/IOUtils');
 const TickManager = require('./TickManager');
+const Player = require('../Entity/Player');
 //const ServerUtils = require('../Utils/ServerUtils');
 //const GameUtils = require('../Utils/GameUtils');
 
@@ -44,22 +45,22 @@ const IOCore = {
                 input.keyboard = new Map();
                 input.mouse = new Mouse();
             }
-            //socket.player.input = input;
-
-            if (input.mouse.isDown === true) {
-                console.log(input);
-            }
-
+            socket.player.input = input;
         });
 
     },
 
     onConnect: (socket) => {
+        socket.player = new Player();
+        socket.player.onConnect(socket);
+
         IOUtils.clientRunUp(socket);
+        IOUtils.spawnEntity(socket.player);
     },
 
     onDisconnect: (socket) => {
-
+        socket.player.onDisconnect(socket);
+        IOUtils.despawnEntity(socket.player.id);
     },
 
 

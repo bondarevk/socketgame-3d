@@ -31,7 +31,6 @@ let Input = {
             if (Input.target === event.target) {
                 Input.onMouseDown(event);
             }
-            Input.target = event.target;
         }, false);
 
         element.oncontextmenu = () => {
