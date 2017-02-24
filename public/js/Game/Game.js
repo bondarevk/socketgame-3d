@@ -1,14 +1,34 @@
 let Game = {
 
-    container: undefined,
+    blocker: document.getElementById('blocker'),
+    container: document.getElementById('gameContainer'),
     stats: undefined,
     clock: undefined,
 
     time: 0,
 
     cameraControls: {
-        camera: undefined
+        camera: undefined,
+
+
+        controlsEnabled: false,
+
+        pointerLockChange: ( event ) => {
+            if ( document.pointerLockElement === Game.container || document.mozPointerLockElement === Game.container || document.webkitPointerLockElement === Game.container ) {
+                Game.cameraControls.controlsEnabled = true;
+                Game.blocker.style.display = 'none';
+            } else {
+                Game.cameraControls.controlsEnabled = false;
+                Game.blocker.style.display = '-webkit-box';
+                Game.blocker.style.display = '-moz-box';
+                Game.blocker.style.display = 'box';
+            }
+        },
+        pointerLockError: ( event ) => {
+
+        }
     },
+
     scene: undefined,
     renderer: undefined,
 
@@ -16,15 +36,13 @@ let Game = {
 
     init: () => {
         Game.initGraphics();
+        Game.initPointerLock();
         Game.createObjects();
 
         Game.animate();
     },
 
     initGraphics: () => {
-        // Элемент игры
-        Game.container = document.getElementById('gameContainer');
-
         // Сцена
         Game.scene = new THREE.Scene();
         Game.clock = new THREE.Clock();
@@ -45,10 +63,6 @@ let Game = {
         // Загрузчик текстур
         Game.textureLoader = new THREE.TextureLoader();
 
-        // Источник света
-        let ambientLight = new THREE.AmbientLight(0x404040);
-        Game.scene.add(ambientLight);
-
         //
         Game.container.innerHTML = "";
         Game.container.appendChild(Game.renderer.domElement);
@@ -63,7 +77,27 @@ let Game = {
         window.addEventListener('resize', Game.onWindowResize, false);
     },
 
+    initPointerLock: () => {
+        // Hook pointer lock state change events
+        document.addEventListener( 'pointerlockchange', Game.cameraControls.pointerLockChange, false );
+        document.addEventListener( 'mozpointerlockchange', Game.cameraControls.pointerLockChange, false );
+        document.addEventListener( 'webkitpointerlockchange', Game.cameraControls.pointerLockChange, false );
+        document.addEventListener( 'pointerlockerror', Game.cameraControls.pointerLockError, false );
+        document.addEventListener( 'mozpointerlockerror', Game.cameraControls.pointerLockError, false );
+        document.addEventListener( 'webkitpointerlockerror', Game.cameraControls.pointerLockError, false );
+
+        Game.blocker.addEventListener( 'click', function ( event ) {
+            // Ask the browser to lock the pointer
+            Game.container.requestPointerLock = Game.container.requestPointerLock || Game.container.mozRequestPointerLock || Game.container.webkitRequestPointerLock;
+            Game.container.requestPointerLock();
+        }, false );
+    },
+
     createObjects: () => {
+
+        // Источник света
+        let ambientLight = new THREE.AmbientLight(0x404040);
+        Game.scene.add(ambientLight);
 
         // Ground
 
