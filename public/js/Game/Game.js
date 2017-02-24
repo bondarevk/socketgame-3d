@@ -41,6 +41,8 @@ let Game = {
         Game.initPointerLock();
         Game.createObjects();
 
+        Input.init(Game.container);
+
         Game.animate();
     },
 
