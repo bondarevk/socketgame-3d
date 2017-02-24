@@ -28,11 +28,7 @@ class Entity {
             id: this.id,
             posX: this.posX,
             posY: this.posY,
-            sprite: this.sprite,
-            width: this.width,
-            height: this.height,
-            rotation: this.rotation,
-            text: this.text,
+            posZ: this.posZ,
             type: this.type
         };
 
