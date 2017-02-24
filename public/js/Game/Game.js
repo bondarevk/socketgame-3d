@@ -10,15 +10,17 @@ let Game = {
     cameraControls: {
         camera: undefined,
 
-
+        controls: undefined,
         controlsEnabled: false,
 
         pointerLockChange: ( event ) => {
             if ( document.pointerLockElement === Game.container || document.mozPointerLockElement === Game.container || document.webkitPointerLockElement === Game.container ) {
                 Game.cameraControls.controlsEnabled = true;
+                Game.cameraControls.controls.enabled = true;
                 Game.blocker.style.display = 'none';
             } else {
                 Game.cameraControls.controlsEnabled = false;
+                Game.cameraControls.controls.enabled = false;
                 Game.blocker.style.display = '-webkit-box';
                 Game.blocker.style.display = '-moz-box';
                 Game.blocker.style.display = 'box';
@@ -52,6 +54,9 @@ let Game = {
         Game.cameraControls.camera.position.x = -7;
         Game.cameraControls.camera.position.y = 5;
         Game.cameraControls.camera.position.z = 8;
+
+        Game.cameraControls.controls = new THREE.PointerLockControls( Game.cameraControls.camera );
+        Game.scene.add( Game.cameraControls.controls.getObject() );
 
         // Рендерер
         Game.renderer = new THREE.WebGLRenderer();
