@@ -11,6 +11,8 @@ let Game = {
 
     time: 0,
 
+    globalEntityMap: new Map(),
+
     cameraControls: {
         camera: undefined,
 

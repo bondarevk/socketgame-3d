@@ -1,14 +1,30 @@
 let GameUtils = {
 
     addEntity: (entity) => {
-        console.log('add');
+        if (Game.globalEntityMap.has(entity.id)) {
+            return;
+        }
+
+        entity.Object3D = undefined;
+
+
+        Game.globalEntityMap.set(entity.id, entity);
+        console.log('add, ' + Game.globalEntityMap.size);
     },
 
     deleteEntityById: (id) => {
-        console.log('del');
+        let entity = Game.globalEntityMap.get(id);
+
+
+        Game.globalEntityMap.delete(id);
+        console.log('del, ' + Game.globalEntityMap.size);
     },
 
     updateEntity: (entity) => {
+        if (Game.globalEntityMap.has(entity.id)) {
+
+        }
+
         //console.log('upd');
     },
 
