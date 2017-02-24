@@ -24,7 +24,13 @@ const IO = {
 
         // Подготовка клиента
         IO.socket.on('clientRunUp', (packet) => {
+            let entityMap = packet.entityMap;
 
+            GameUtils.clearEntities();
+            Object.keys(entityMap).map(function(key, index) {
+                let entity = entityMap[key];
+                GameUtils.addEntity(entity);
+            });
 
             // Input Keys
             Input.setupKeys(packet.inputReq);

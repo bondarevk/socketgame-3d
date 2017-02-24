@@ -71,6 +71,11 @@ const IOCore = {
         clientRunUp: () => {
             let packet = {};
 
+            packet.entityMap = { };
+            global.Server.globalEntityMap.forEach((entity, id, map) => {
+                packet.entityMap[id] = entity.generatePacket();
+            });
+
             packet.inputReq = [87, 83, 65, 68, 16];
             packet.tickrate = TickManager.tickrate;
 
