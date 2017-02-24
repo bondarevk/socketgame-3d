@@ -36,6 +36,13 @@ let GameUtils = {
         localEntity.Object3D.position.y = localEntity.posY;
         localEntity.Object3D.position.z = localEntity.posZ;
 
+        // Rotation
+        localEntity.rotationX = entity.rotationX;
+        localEntity.rotationY = entity.rotationY;
+        localEntity.rotationZ = entity.rotationZ;
+        localEntity.Object3D.rotation.x = localEntity.rotationX;
+        localEntity.Object3D.rotation.y = localEntity.rotationY;
+        localEntity.Object3D.rotation.z = localEntity.rotationZ;
 
     },
 

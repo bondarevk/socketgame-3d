@@ -8,9 +8,13 @@ class Entity {
         this.updateNeeded = false;
         this.requireTick = false;
 
-        this.posX = 0.0;
-        this.posY = 0.0;
-        this.posZ = 0.0;
+        this.object3D = new global.THREE.Object3D();
+        this.object3D.position.x = 0;
+        this.object3D.position.y = 0;
+        this.object3D.position.z = 0;
+        this.object3D.rotation.y = 0;
+        this.object3D.rotation.x = 0;
+        this.object3D.rotation.z = 0;
 
         this.type = ['BaseEntity'];
     }
@@ -24,15 +28,16 @@ class Entity {
     }
 
     generatePacket() {
-        let packet = {
+        return {
             id: this.id,
-            posX: this.posX,
-            posY: this.posY,
-            posZ: this.posZ,
+            posX: this.object3D.position.x,
+            posY: this.object3D.position.y,
+            posZ: this.object3D.position.z,
+            rotationX: this.object3D.rotation.x,
+            rotationY: this.object3D.rotation.y,
+            rotationZ: this.object3D.rotation.z,
             type: this.type
         };
-
-        return packet;
     }
 
     requestUpdate() {

@@ -69,7 +69,6 @@ class Player extends LiveEntity {
     }
 
     onTick(tick) {
-        super.onTick();
 
         let keyboard = this.input.keyboard;
 
@@ -79,20 +78,14 @@ class Player extends LiveEntity {
             let vY = 0;
             let vZ = 0;
 
-            let obj = new global.THREE.Object3D();
-            obj.position.x = this.posX;
-            obj.position.y = this.posY;
-            obj.position.z = this.posZ;
-            obj.rotation.y = this.input.cameraDirection.yaw;
-            obj.rotation.x = this.input.cameraDirection.pitch;
-
+            this.object3D.rotation.y = this.input.cameraDirection.yaw;
 
             if (keyboard.get(65) === true) {
-                vX += 1.0;
+                vX -= 1.0;
             }
 
             if (keyboard.get(68) === true) {
-                vX -= 1.0;
+                vX += 1.0;
             }
 
             if (keyboard.get(87) === true) {
@@ -103,12 +96,11 @@ class Player extends LiveEntity {
                 vZ += 1.0;
             }
 
-            obj.translateX(vX);
-            obj.translateZ(vZ);
-
-            this.posX = obj.position.x;
-            this.posZ = obj.position.z;
+            this.movement.vX = vX;
+            this.movement.vY = vY;
+            this.movement.vZ = vZ;
         }
+        super.onTick();
 
         if (this.input.mouse.isDown === true) {
             if (this.input.mouse.button === 1) {
