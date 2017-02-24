@@ -51,9 +51,9 @@ let Game = {
 
         // Камера
         Game.cameraControls.camera = new THREE.PerspectiveCamera(60, Game.container.clientWidth / Game.container.clientHeight, 0.2, 2000);
-        Game.cameraControls.camera.position.x = -7;
-        Game.cameraControls.camera.position.y = 5;
-        Game.cameraControls.camera.position.z = 8;
+        Game.cameraControls.camera.position.x = 0;
+        Game.cameraControls.camera.position.y = 2;
+        Game.cameraControls.camera.position.z = 0;
 
         Game.cameraControls.controls = new THREE.PointerLockControls( Game.cameraControls.camera );
         Game.scene.add( Game.cameraControls.controls.getObject() );
@@ -106,7 +106,11 @@ let Game = {
 
         // Ground
 
-        let ground = RenderUtils.createParalellepiped(40, 1, 40, new THREE.MeshPhongMaterial({color: 0xFFFFFF}));
+        let ground = RenderUtils.createParalellepiped(100, 1, 100, new THREE.MeshPhongMaterial({color: 0xFFFFFF}));
+
+        ground.position.x = 0;
+        ground.position.y = 0;
+        ground.position.z = 0;
         ground.castShadow = true;
         ground.receiveShadow = true;
 
