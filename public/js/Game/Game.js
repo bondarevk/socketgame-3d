@@ -50,7 +50,7 @@ let Game = {
         Game.clock = new THREE.Clock();
 
         // Камера
-        Game.cameraControls.camera = new THREE.PerspectiveCamera(60, Game.container.clientWidth / Game.container.clientHeight, 0.2, 2000);
+        Game.cameraControls.camera = new THREE.PerspectiveCamera(75, Game.container.clientWidth / Game.container.clientHeight, 1, 1000);
         Game.cameraControls.camera.position.x = 0;
         Game.cameraControls.camera.position.y = 2;
         Game.cameraControls.camera.position.z = 0;
