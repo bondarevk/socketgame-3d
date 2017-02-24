@@ -25,6 +25,17 @@ const IOUtis = {
 
     clientEntityMapUpdate: () => {
         global.IOCore.io.emit('clientEntityMapUpdate', global.IOCore.Packet.clientEntityMapUpdate());
+    },
+
+    bindCamera: (socket, eID, dX, dY, dZ) => {
+
+        socket.emit('bindCamera', global.IOCore.Packet.bindCamera({
+            eID: eID,
+            dX: dX || 0,
+            dY: dY || 0,
+            dZ: dZ || 0
+        }));
+
     }
 };
 

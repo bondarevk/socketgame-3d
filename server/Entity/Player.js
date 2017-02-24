@@ -42,7 +42,7 @@ class Player extends LiveEntity {
                 button: 1
             }
         };
-
+        this.headHeight = 1; // Высота камеры от центра модели
 
         // Events
         this.eventEmitter = new events.EventEmitter();
@@ -140,6 +140,7 @@ class Player extends LiveEntity {
         let packet = super.generatePacket();
 
         packet['nickname'] = this.Nickname;
+        packet['headHeight'] = this.headHeight;
 
         return packet;
     }

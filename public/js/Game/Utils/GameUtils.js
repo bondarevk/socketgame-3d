@@ -5,7 +5,7 @@ let GameUtils = {
             return;
         }
 
-        entity.Object3D = RenderUtils.addBox(entity.posX, entity.posY, entity.posZ, 2, 2, 2);
+        entity.Object3D = RenderUtils.addBox(entity.posX, entity.posY, entity.posZ, entity.width, entity.height, entity.depth, entity.color);
 
 
         Game.globalEntityMap.set(entity.id, entity);
@@ -43,22 +43,47 @@ let GameUtils = {
         localEntity.Object3D.rotation.x = localEntity.rotationX;
         localEntity.Object3D.rotation.y = localEntity.rotationY;
         localEntity.Object3D.rotation.z = localEntity.rotationZ;
-
     },
 
     clearEntities: () => {
 
     },
 
+    bindCamera: (cameraBind) => {
+        Game.cameraBind.eID = cameraBind.eID;
+        Game.cameraBind.dX = cameraBind.dX;
+        Game.cameraBind.dY = cameraBind.dY;
+        Game.cameraBind.dZ = cameraBind.dZ;
+    },
+
+    updateCameraPos: () => {
+        let cam = Game.cameraControls.controls.getObject();
+        if (Game.cameraBind.eID !== null) {
+            if (Game.globalEntityMap.has(Game.cameraBind.eID)) {
+                let player = Game.globalEntityMap.get(Game.cameraBind.eID);
+                if (player.Object3D) {
+                    player.Object3D.rotation.y = cam.rotation.y;
+                }
+                cam.position.x = player.posX;
+                cam.position.y = player.posY + player.headHeight;
+                cam.position.z = player.posZ;
+                if (Game.cameraControls.firstPerson === false) {
+                    cam.translateZ(5);
+                    cam.translateY(4);
+                }
+            } else {
+                cam.position.x = Game.cameraBind.dX;
+                cam.position.y = Game.cameraBind.dY;
+                cam.position.z = Game.cameraBind.dZ;
+            }
+        } else {
+            cam.position.x = Game.cameraBind.dX;
+            cam.position.y = Game.cameraBind.dY;
+            cam.position.z = Game.cameraBind.dZ;
+        }
+    },
+
     // TODO:
-    bindCamera: (camera) => {
-
-    },
-
-    updateCamera: () => {
-
-    },
-
     setUIHp: (hp) => {
 
     },

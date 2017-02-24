@@ -10,11 +10,16 @@ class Entity {
 
         this.object3D = new global.THREE.Object3D();
         this.object3D.position.x = 0;
-        this.object3D.position.y = 0;
+        this.object3D.position.y = 1;
         this.object3D.position.z = 0;
         this.object3D.rotation.y = 0;
         this.object3D.rotation.x = 0;
         this.object3D.rotation.z = 0;
+
+        this.width = 3;
+        this.height = 2;
+        this.depth = 3;
+        this.color = 0xFFFFFF;
 
         this.type = ['BaseEntity'];
     }
@@ -36,6 +41,10 @@ class Entity {
             rotationX: this.object3D.rotation.x,
             rotationY: this.object3D.rotation.y,
             rotationZ: this.object3D.rotation.z,
+            width: this.width,
+            height: this.height,
+            depth: this.depth,
+            color: this.color,
             type: this.type
         };
     }

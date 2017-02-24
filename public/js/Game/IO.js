@@ -61,6 +61,11 @@ const IO = {
             GameUtils.deleteEntityById(packet);
         });
 
+        // Установка камеры
+        IO.socket.on('bindCamera', (packet) => {
+            GameUtils.bindCamera(packet);
+        });
+
     },
 
 
