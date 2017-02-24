@@ -2,6 +2,10 @@ let Game = {
 
     blocker: document.getElementById('blocker'),
     container: document.getElementById('gameContainer'),
+    UI: {
+        textStatus: document.getElementById("textInfo")
+    },
+
     stats: undefined,
     clock: undefined,
 
@@ -42,6 +46,7 @@ let Game = {
         Game.createObjects();
 
         Input.init(Game.container);
+        IO.init();
 
         Game.animate();
     },
