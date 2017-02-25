@@ -1,32 +1,86 @@
-let Chat = {
 
-    messageInput: undefined,
-    messageForm: undefined,
-    onlineList: undefined,
-    messagesList: undefined,
-    messagesScroll: undefined,
+class ChatMessage {
+    constructor(id, nickname, text, date, sender, style) {
+        this.id = id || 'unknown';
+        this.nickname = nickname || 'Unknown';
+        this.text = text || '';
+        this.sender = sender || '0';
+        this.date = new Date(date || Date.now());
+        this.style = style || '';
+    }
+
+    toString() {
+        // Стиль сообщения
+        let style;
+        if (this.sender === Game.player.id) {
+            style = 'msg-1'; // Свое сообщение
+        } else {
+            style = 'msg-0';
+        }
+        style += ' ' + this.style;
+
+        // Дата
+        let options = {
+            month: 'long',
+            day: 'numeric',
+            hour: 'numeric',
+            minute: 'numeric'
+        };
+
+        return '<li class="' + style + '"><div class="author"><p>' + this.nickname +
+            '</p></div><div class="text"><p>' + this.text +
+            '</p></div><div class="date"><p>' + this.date.toLocaleString("ru", options) +
+            '</p></div></li>';
+    }
+}
+
+const Chat = {
+
+    _messageInput: $('#message'),
+    _messageForm: $('#messageForm'),
+    _onlineList: $('#onlineList'),
+    _messagesList: $('#msgs'),
+    _messagesScroll: undefined,
 
     init: () => {
-        Chat.messageInput = $('#message');
-        Chat.messageForm = $('#messageForm');
-        Chat.onlineList = $('#onlineList');
-        Chat.messagesList = $('#msgs');
-        Chat.messagesScroll = new IScroll('#wrapper', {
+        Chat._messagesScroll = new IScroll('#wrapper', {
             mouseWheel: true,
             disablePointer: true
         });
 
-        Chat.messageForm.submit(() => {
-            IO.socket.emit('chat message', Chat.messageInput.val());
-            Chat.messageInput.val('');
+        Chat._messageForm.submit(() => {
+            IO.socket.emit('chatMessage', Chat._messageInput.val());
+            Chat._messageInput.val('');
             return false;
         });
     },
 
+    initIO: (socket) => {
+
+        // Полное обновление чата
+        socket.on('chatHistory', function (chat) {
+            let messages = [];
+            chat.forEach((message) => {
+                messages.push(new ChatMessage(message.id, message.nickname, message.text, message.date, message.sender, message.style));
+            });
+
+            Chat.clearChat();
+            Chat.chatMessages(messages);
+        });
+
+        // Получение сообщения
+        socket.on('chatMessage', function (message) {
+            Chat.chatMessage(new ChatMessage(message.id, message.nickname, message.text, message.date, message.sender, message.style));
+        });
+    },
+
+
+
+    // TODO: Online
     addPlayerToOnlineList: (id) => {
         if (Game.globalEntityMap.has(id)) {
             let nick = Game.globalEntityMap.get(id).nickname;
-            Chat.onlineList.append('<li id="' + id + '">' + nick + '</li>');
+            Chat._onlineList.append('<li id="' + id + '">' + nick + '</li>');
         }
     },
 
@@ -34,28 +88,38 @@ let Chat = {
         $("#" + id + "").remove();
     },
 
-    addMessageToChat: (message) => {
-        Chat.messagesList.append(message);
-        Chat.refreshScroll();
+    clearPlayers: () => {
+        Chat._onlineList.empty();
+    },
+
+
+
+    // Chat
+    chatMessage: (message) => {
+        Chat._messagesList.append(message.toString());
+        Chat._refreshScroll();
+    },
+
+    chatMessages: (messages) => {
+        messages.forEach((message) => {
+            Chat._messagesList.append(message.toString());
+        });
+        Chat._refreshScroll();
     },
 
     clearChat: () => {
-        Chat.messagesList.empty();
-        Chat.refreshScroll();
+        Chat._messagesList.empty();
+        Chat._refreshScroll();
     },
 
-    clearPlayers: () => {
-        Chat.onlineList.empty();
-    },
-
-    refreshScroll: () => {
+    _refreshScroll: () => {
         let autoscroll = false;
-        if (Chat.messagesScroll.y <= Chat.messagesScroll.maxScrollY + 250) {
+        if (Chat._messagesScroll.y <= Chat._messagesScroll.maxScrollY + 250) {
             autoscroll = true;
         }
-        Chat.messagesScroll.refresh();
+        Chat._messagesScroll.refresh();
         if (autoscroll === true) {
-            Chat.messagesScroll.scrollTo(0, Chat.messagesScroll.maxScrollY, 0);
+            Chat._messagesScroll.scrollTo(0, Chat._messagesScroll.maxScrollY, 0);
         }
     },
 
@@ -68,53 +132,6 @@ let Chat = {
             min = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes(),
             sec = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds();
         return year + '-' + mnth + '-' + day + ' ' + hour + ':' + min + ':' + sec;
-    },
-
-    initIO: (socket) => {
-
-        //Добавление игроков в список
-        socket.on('reload players', function (ids) {
-            Chat.clearPlayers();
-            if (ids.length !== 0) {
-                ids.forEach((id) => {
-                    Chat.addPlayerToOnlineList(id);
-                });
-            }
-        });
-
-        //Добавление игрока в список
-        socket.on('add player', function (id) {
-            Chat.addPlayerToOnlineList(id);
-        });
-
-        //Удаление игрока из списка
-        socket.on('delete player', function (id) {
-            Chat.removePlayerFromOnlineList(id);
-        });
-
-
-        //Инициализация чата для нового игрока
-        socket.on('init chat', function (messages) {
-            Chat.clearChat();
-
-            messages.forEach(function (message) {
-                if (message.id === Game.player.id)
-                    Chat.messagesList.append('<li class="msg-1"><div class="author"><p>' + message.nick + '</p></div><div class="text"><p>' + message.text + '</p></div><div class="date"><p>' + Chat.getDate(message.date) + '</p></div></li>');
-                else
-                    Chat.messagesList.append('<li class="msg-0"><div class="author"><p>' + message.nick + '</p></div><div class="text"><p>' + message.text + '</p></div><div class="date"><p>' + Chat.getDate(message.date) + '</p></div></li>');
-            });
-
-            Chat.refreshScroll();
-        });
-
-        //Обновление чата для всех игроков
-        socket.on('chat message', function (message) {
-            if (message.id === Game.player.id) {
-                Chat.addMessageToChat('<li class="msg-1"><div class="author"><p>' + message.nick + '</p></div><div class="text"><p>' + message.text + '</p></div><div class="date"><p>' + Chat.getDate(message.date) + '</p></div></li>');
-            } else {
-                Chat.addMessageToChat('<li class="msg-0"><div class="author"><p>' + message.nick + '</p></div><div class="text"><p>' + message.text + '</p></div><div class="date"><p>' + Chat.getDate(message.date) + '</p></div></li>');
-            }
-        });
     }
 };
 

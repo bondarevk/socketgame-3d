@@ -33,6 +33,7 @@ const IO = {
                 GameUtils.addEntity(entity);
             });
 
+            Game.player = packet.player;
             // Input Keys
             Input.setupKeys(packet.inputReq);
 

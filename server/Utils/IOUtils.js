@@ -3,7 +3,7 @@
 const IOUtis = {
 
     clientRunUp: (socket) => {
-        socket.emit('clientRunUp', global.IOCore.Packet.clientRunUp());
+        socket.emit('clientRunUp', global.IOCore.Packet.clientRunUp(socket));
     },
 
     spawnEntity: (entity) => {
@@ -36,6 +36,15 @@ const IOUtis = {
             dZ: dZ || 0
         }));
 
+    },
+
+    // Chat
+    sendChatMessage: (message) => {
+        IOCore.io.emit('chatMessage', message);
+    },
+
+    loadChatHistory: (socket, chatHistory) => {
+        socket.emit('chatHistory', chatHistory);
     }
 };
 

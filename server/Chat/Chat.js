@@ -1,39 +1,39 @@
-let IOUtils = require('../Utils/IOUtils');
+const IOUtils = require('../Utils/IOUtils');
+const MathUtils = require('../Utils/MathUtils');
 
 class Message {
-    constructor(nick, text, id) {
-        this.nick = nick;
-        this.text = text;
+    constructor(nickname, text, sender, style) {
+        this.id = MathUtils.guid();
+        this.nickname = nickname;
+        this.text = text || '';
+        this.sender = sender || 0;
         this.date = Date.now();
-        this.id = id;
+        this.style = style || '';
     }
 }
 
-let Chat = {
-    message_history: [],
-    players_online: [],
+const Chat = {
+    chat: [],
 
-    sendMessage: (nickname, text, senderid) => {
-        let message = new Message(nickname, text, senderid);
-        console.log(message);
-        Chat.message_history.push(message);
-        IOUtils.sendMessageToChat(message);
+    sendMessage: (nickname, text, sender) => {
+        let message = new Message(nickname, text, sender);
+        Chat.chat.push(message);
+        IOUtils.sendChatMessage(message);
     },
 
-    onMessageReceive: (socket, msg) => {
-        Chat.sendMessage(socket.player.Nickname, msg, socket.player.id);
+    reloadChatHistory: (socket) => {
+        IOUtils.loadChatHistory(socket, Chat.chat);
     },
 
-    onPlayerConnect: (socket) => {
-        socket.emit('init chat', Chat.message_history);
-        socket.emit('reload players', Chat.players_online);
-        Chat.players_online.push(socket.player.id);
-        global.IOCore.io.emit('add player', socket.player.id);
+    clearChat: () => {
+        chat = [];
+        Chat.reloadChatHistory(global.IOCore.io);
     },
 
-    onPlayerDisconnect: (socket) => {
-        Chat.players_online.splice(Chat.players_online.indexOf(socket.player.id), 1);
-        global.IOCore.io.emit('delete player', socket.player.id);
+    onMessageReceive: (socket, text) => {
+        if (typeof text === 'string' && socket.player instanceof Object) {
+            Chat.sendMessage(socket.player.Nickname, text, socket.player.id);
+        }
     }
 };
 

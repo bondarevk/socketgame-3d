@@ -4,9 +4,8 @@ const httpServer = require('http').Server(expressServer);
 
 const IOUtils = require('../Utils/IOUtils');
 const TickManager = require('./TickManager');
+const Chat = require('../Chat/Chat');
 const Player = require('../Entity/Player');
-//const ServerUtils = require('../Utils/ServerUtils');
-//const GameUtils = require('../Utils/GameUtils');
 
 const serverPort = 80;
 
@@ -31,6 +30,12 @@ const IOCore = {
 
     initEvents: (socket) => {
 
+        // Chat
+        socket.on('chatMessage', (packet) => {
+            Chat.onMessageReceive(socket, packet);
+        });
+
+        // Input
         socket.on('clientInput', (packet) => {
             function Mouse(isDown, button) {
                 this.isDown = isDown || false;
@@ -58,7 +63,8 @@ const IOCore = {
 
         IOUtils.clientRunUp(socket);
         IOUtils.spawnEntity(socket.player);
-        IOUtils.bindCamera(socket, socket.player.id)
+        IOUtils.bindCamera(socket, socket.player.id);
+        Chat.reloadChatHistory(socket);
     },
 
     onDisconnect: (socket) => {
@@ -69,13 +75,23 @@ const IOCore = {
 
 
     Packet: {
-        clientRunUp: () => {
+        clientRunUp: (socket) => {
             let packet = {};
 
             packet.entityMap = { };
             global.Server.globalEntityMap.forEach((entity, id, map) => {
                 packet.entityMap[id] = entity.generatePacket();
             });
+
+            if (socket.player instanceof Player) {
+                packet.player = {
+                    id: socket.player.id
+                };
+            } else {
+                packet.player = {
+                    id: null
+                };
+            }
 
             packet.inputReq = [87, 83, 65, 68, 16];
             packet.tickrate = TickManager.tickrate;

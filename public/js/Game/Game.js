@@ -18,6 +18,9 @@ let Game = {
     time: 0,
 
     globalEntityMap: new Map(),
+    player: {
+        id: null
+    },
 
     cameraControls: {
         firstPerson: true,
