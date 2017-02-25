@@ -2,7 +2,7 @@ const IOUtils = require('../Utils/IOUtils');
 
 const TickManager = {
 
-    tickrate: 30,
+    tickrate: 64,
     _tickTimer: null,
     _currentTick: 0,
 
