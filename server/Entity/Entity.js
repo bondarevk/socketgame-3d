@@ -56,33 +56,33 @@ class Entity {
 
     // Координаты
     setPos(x, y, z) {
-        let transformAux = new Ammo.btTransform();
-        this.pObject.getMotionState().getWorldTransform( transformAux );
-
-        let p = transformAux.getOrigin();
+        let transform = this.pObject.getCenterOfMassTransform();
+        let origin = transform.getOrigin();
 
         if (x === undefined) {
-            x = p.x();
+            x = origin.x();
         }
         if (y === undefined) {
-            y = p.y();
+            y = origin.y();
         }
         if (z === undefined) {
-            z = p.z();
+            z = origin.z();
         }
 
         this.tObject.position.x = x;
         this.tObject.position.y = y;
         this.tObject.position.z = z;
-        transformAux.setOrigin( new Ammo.btVector3( x, y, z ) );
 
-        this.pObject.setWorldTransform(transformAux);
-        this.pObject.getMotionState().setWorldTransform(transformAux);
 
+        transform.setOrigin( new Ammo.btVector3( x, y, z ) );
+
+
+        this.pObject.setCenterOfMassTransform(transform);
         this.requestUpdate();
     }
 
     setRotation(x, y, z) {
+        let transform = this.pObject.getCenterOfMassTransform();
 
         if (x === undefined) {
             x = this.tObject.rotation.x;
@@ -94,33 +94,31 @@ class Entity {
             z = this.tObject.rotation.z;
         }
 
-        //this.tObject.rotation.set(x, y, z);
-        //let quat = new THREE.Quaternion();
-        //quat.copy(this.tObject.quaternion);
-
         console.log('----');
         console.log(y);
 
-
-        let q = new Ammo.btQuaternion(  );
-        q.setEulerZYX(z, y, x);
-        console.log(q.y());
-
-
         // TODO: FIX ROTATION!
-        let transformAux = new Ammo.btTransform();
-        this.pObject.getMotionState().getWorldTransform( transformAux );
-        console.log(transformAux.getRotation().y());
-        transformAux.setRotation( q );
-        console.log(transformAux.getRotation().y());
-        //q2.setValue( quat.x, quat.y, quat.z, quat.w );
+
+
+        let q1 = new Ammo.btQuaternion(  );
+        q1.setEulerZYX(z, y, x);
+        console.log(q1.x());
+        console.log(q1.y());
+        console.log(q1.z());
+        console.log(q1.w());
+        transform.setRotation(q1);
+
+
+        console.log(transform.getRotation().x());
+        console.log(transform.getRotation().y());
+        console.log(transform.getRotation().z());
+        console.log(transform.getRotation().w());
 
 
         //this.tObject.quaternion.set(transformAux.getRotation().x(), transformAux.getRotation().y(), transformAux.getRotation().z(), transformAux.getRotation().w());
 
 
-        this.pObject.setWorldTransform(transformAux);
-        this.pObject.getMotionState().setWorldTransform(transformAux);
+        this.pObject.setCenterOfMassTransform(transform);
 
         this.requestUpdate();
     }

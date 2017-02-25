@@ -1,5 +1,3 @@
-
-
 const Physics = {
 
     _collisionConfiguration: null,
@@ -14,7 +12,7 @@ const Physics = {
 
     init: () => {
         Physics._collisionConfiguration = new Ammo.btSoftBodyRigidBodyCollisionConfiguration();
-        Physics._dispatcher = new Ammo.btCollisionDispatcher( Physics._collisionConfiguration );
+        Physics._dispatcher = new Ammo.btCollisionDispatcher(Physics._collisionConfiguration);
         Physics._broadphase = new Ammo.btDbvtBroadphase();
         Physics._solver = new Ammo.btSequentialImpulseConstraintSolver();
         Physics._softBodySolver = new Ammo.btDefaultSoftBodySolver();
@@ -26,8 +24,8 @@ const Physics = {
             Physics._collisionConfiguration,
             Physics._softBodySolver
         );
-        Physics.physicsWorld.setGravity( new Ammo.btVector3( 0, Physics.gravityConstant, 0 ) );
-        Physics.physicsWorld.getWorldInfo().set_m_gravity( new Ammo.btVector3( 0, Physics.gravityConstant, 0 ) );
+        Physics.physicsWorld.setGravity(new Ammo.btVector3(0, Physics.gravityConstant, 0));
+        Physics.physicsWorld.getWorldInfo().set_m_gravity(new Ammo.btVector3(0, Physics.gravityConstant, 0));
         console.log('Physics init.')
     },
 
@@ -46,65 +44,54 @@ const Physics = {
 
         let transform = new Ammo.btTransform();
         transform.setIdentity();
-        transform.setOrigin( new Ammo.btVector3( pos.x, pos.y, pos.z ) );
-        transform.setRotation( new Ammo.btQuaternion( quat.x, quat.y, quat.z, quat.w ) );
+        transform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
+        transform.setRotation(new Ammo.btQuaternion(quat.x, quat.y, quat.z, quat.w));
 
-        let motionState = new Ammo.btDefaultMotionState( transform );
-        let localInertia = new Ammo.btVector3( 0, 0, 0 );
-        physicsShape.calculateLocalInertia( mass, localInertia );
+        let motionState = new Ammo.btDefaultMotionState(transform);
+        let localInertia = new Ammo.btVector3(0, 0, 0);
+        physicsShape.calculateLocalInertia(mass, localInertia);
 
-        let rbInfo = new Ammo.btRigidBodyConstructionInfo( mass, motionState, physicsShape, localInertia );
-        let body = new Ammo.btRigidBody( rbInfo );
+        let rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, physicsShape, localInertia);
+        let body = new Ammo.btRigidBody(rbInfo);
         threeObject.userData.physicsBody = body;
 
-        if ( mass > 0 ) {
+        if (mass > 0) {
             // Disable deactivation
-            body.setActivationState( 4 );
+            body.setActivationState(4);
         }
 
         return body;
     },
 
     addRigidBody: (tObject, pObject) => {
-        Physics.rigidBodies.push( tObject );
-        Physics.physicsWorld.addRigidBody( pObject );
-
-        console.log('add RB ' + Physics.rigidBodies.length);
+        Physics.rigidBodies.push(tObject);
+        Physics.physicsWorld.addRigidBody(pObject);
     },
 
     removeRigidBody: (tObject, pObject) => {
-        Physics.physicsWorld.removeRigidBody( pObject );
+        Physics.physicsWorld.removeRigidBody(pObject);
 
         let index = Physics.rigidBodies.indexOf(tObject);
         if (index >= 0) {
             Physics.rigidBodies.splice(index, 1);
         }
-
-        console.log('rem RB ' + Physics.rigidBodies.length);
     },
 
     tick: () => {
         Physics.physicsWorld.stepSimulation(1 / 64, 1 / 64);
 
-        for ( let i = 0; i < Physics.rigidBodies.length; i++ ) {
+        for (let i = 0; i < Physics.rigidBodies.length; i++) {
 
             let tObject = Physics.rigidBodies[i];
             let pObject = tObject.userData.physicsBody;
 
-            let ms = pObject.getMotionState();
-            if ( ms ) {
+            let transform = pObject.getCenterOfMassTransform();
 
-                let transformAux = new Ammo.btTransform();
-                transformAux.setIdentity();
-                ms.getWorldTransform( transformAux );
-                let p = transformAux.getOrigin();
-                let q = transformAux.getRotation();
+            let origin = transform.getOrigin();
+            let rotation = transform.getRotation();
 
-                tObject.position.set( p.x(), p.y(), p.z() );
-                tObject.quaternion.set( q.x(), q.y(), q.z(), q.w() );
-
-            }
-
+            tObject.position.set( origin.x(), origin.y(), origin.z() );
+            tObject.quaternion.set( rotation.x(), rotation.y(), rotation.z(), rotation.w() );
         }
     }
 

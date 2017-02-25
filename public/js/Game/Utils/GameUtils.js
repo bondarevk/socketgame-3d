@@ -59,6 +59,7 @@ let GameUtils = {
     },
 
     clearEntities: () => {
+        // TODO: Fix Clear
         Game.scene.children.forEach(function(object){
             Game.scene.remove(object);
         });
