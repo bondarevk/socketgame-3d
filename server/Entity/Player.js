@@ -96,9 +96,11 @@ class Player extends LiveEntity {
                 vZ += 1.0;
             }
 
-            this.movement.vX = vX;
-            this.movement.vY = vY;
-            this.movement.vZ = vZ;
+            let normVec = MathUtils.normalize(vX, vY, vZ);
+
+            this.movement.vX = normVec.vX;
+            this.movement.vY = normVec.vY;
+            this.movement.vZ = normVec.vZ;
         }
         super.onTick();
 
