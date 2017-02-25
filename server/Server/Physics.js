@@ -8,8 +8,6 @@ const Physics = {
     _solver: null,
     _softBodySolver: null,
 
-    _transformAux: null,
-
     gravityConstant: -9.8,
     physicsWorld: null,
     rigidBodies: [],
@@ -20,8 +18,6 @@ const Physics = {
         Physics._broadphase = new Ammo.btDbvtBroadphase();
         Physics._solver = new Ammo.btSequentialImpulseConstraintSolver();
         Physics._softBodySolver = new Ammo.btDefaultSoftBodySolver();
-
-        Physics._transformAux = new Ammo.btTransform();
 
         Physics.physicsWorld = new Ammo.btSoftRigidDynamicsWorld(
             Physics._dispatcher,
@@ -97,12 +93,16 @@ const Physics = {
 
             let ms = pObject.getMotionState();
             if ( ms ) {
-                ms.getWorldTransform( Physics._transformAux );
-                let p = Physics._transformAux.getOrigin();
-                let q = Physics._transformAux.getRotation();
+
+                let transformAux = new Ammo.btTransform();
+                transformAux.setIdentity();
+                ms.getWorldTransform( transformAux );
+                let p = transformAux.getOrigin();
+                let q = transformAux.getRotation();
 
                 tObject.position.set( p.x(), p.y(), p.z() );
                 tObject.quaternion.set( q.x(), q.y(), q.z(), q.w() );
+
             }
 
         }

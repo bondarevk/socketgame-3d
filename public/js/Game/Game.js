@@ -121,24 +121,9 @@ let Game = {
         Game.scene.add( Game.cameraControls.controls.getObject() );
 
         // Источник света
-        let ambientLight = new THREE.AmbientLight(0x404040);
-        Game.scene.add(ambientLight);
         let light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
         light.position.set( 0.5, 1, 0.75 );
         Game.scene.add( light );
-
-        // Ground
-
-
-        let ground = RenderUtils.addBox(0, -2, 0, 100, 1, 100);
-
-        Game.textureLoader.load("textures/grass.jpg", function (texture) {
-            texture.wrapS = THREE.RepeatWrapping;
-            texture.wrapT = THREE.RepeatWrapping;
-            texture.repeat.set(40, 40);
-            ground.material.map = texture;
-            ground.material.needsUpdate = true;
-        });
     },
 
 

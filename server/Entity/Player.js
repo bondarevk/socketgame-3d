@@ -40,6 +40,10 @@ class Player extends LiveEntity {
             mouse: {
                 isDown: false,
                 button: 1
+            },
+            cameraDirection: {
+                yaw: 0,
+                pitch: 0
             }
         };
         this.headHeight = 1; // Высота камеры от центра модели
@@ -48,7 +52,7 @@ class Player extends LiveEntity {
         this.eventEmitter = new events.EventEmitter();
         this.abilitiesMap = this.abilitiesInit(this.eventEmitter);
 
-
+        //this.pObject.setAngularFactor( 0, 1, 0 );
 
         this.type.push('BasePlayer');
     }
@@ -57,8 +61,11 @@ class Player extends LiveEntity {
         let abilitiesMap = new Map();
 
         // Abilities
-        abilitiesMap.set('ml', new Ability(0.3, (player) => {
+        abilitiesMap.set('ml', new Ability(0.1, (player) => {
             console.log(player.input.cameraDirection);
+
+            global.ground.a += 0.1;
+            global.ground.setRotation(undefined, global.ground.a, undefined);
         }));
 
         this.eventEmitter.on('mouseLeft', (tick, player) => {
@@ -79,6 +86,8 @@ class Player extends LiveEntity {
             let vY = 0;
             let vZ = 0;
 
+            //console.log(this.input.cameraDirection.yaw);
+            //this.setRotation(undefined, this.input.cameraDirection.yaw, undefined);
             //this.object3D.rotation.y = this.input.cameraDirection.yaw;
 
             if (keyboard.get(65) === true) {

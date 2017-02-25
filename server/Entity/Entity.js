@@ -11,7 +11,7 @@ class Entity {
 
         this.tObject = new global.THREE.Object3D();
         this.tObject.position.x = 0;
-        this.tObject.position.y = 1;
+        this.tObject.position.y = 0;
         this.tObject.position.z = 0;
         this.tObject.rotation.y = 0;
         this.tObject.rotation.x = 0;
@@ -83,10 +83,6 @@ class Entity {
     }
 
     setRotation(x, y, z) {
-        let transformAux = new Ammo.btTransform();
-        this.pObject.getMotionState().getWorldTransform( transformAux );
-
-        let q = transformAux.getRotation();
 
         if (x === undefined) {
             x = this.tObject.rotation.x;
@@ -98,12 +94,30 @@ class Entity {
             z = this.tObject.rotation.z;
         }
 
-        this.tObject.rotation.x = x;
-        this.tObject.rotation.y = y;
-        this.tObject.rotation.z = z;
-        let quat = new THREE.Quaternion();
-        quat.copy(this.tObject.quaternion);
-        transformAux.setRotation( new Ammo.btQuaternion( quat.x, quat.y, quat.z, quat.w ) );
+        //this.tObject.rotation.set(x, y, z);
+        //let quat = new THREE.Quaternion();
+        //quat.copy(this.tObject.quaternion);
+
+        console.log('----');
+        console.log(y);
+
+
+        let q = new Ammo.btQuaternion(  );
+        q.setEulerZYX(z, y, x);
+        console.log(q.y());
+
+
+        // TODO: FIX ROTATION!
+        let transformAux = new Ammo.btTransform();
+        this.pObject.getMotionState().getWorldTransform( transformAux );
+        console.log(transformAux.getRotation().y());
+        transformAux.setRotation( q );
+        console.log(transformAux.getRotation().y());
+        //q2.setValue( quat.x, quat.y, quat.z, quat.w );
+
+
+        //this.tObject.quaternion.set(transformAux.getRotation().x(), transformAux.getRotation().y(), transformAux.getRotation().z(), transformAux.getRotation().w());
+
 
         this.pObject.setWorldTransform(transformAux);
         this.pObject.getMotionState().setWorldTransform(transformAux);

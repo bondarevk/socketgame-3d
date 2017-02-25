@@ -6,6 +6,9 @@ let GameUtils = {
         }
 
         entity.Object3D = RenderUtils.addBox(entity.posX, entity.posY, entity.posZ, entity.width, entity.height, entity.depth, entity.color);
+        entity.Object3D.rotation.x = entity.rotationX;
+        entity.Object3D.rotation.y = entity.rotationY;
+        entity.Object3D.rotation.z = entity.rotationZ;
 
 
         Game.globalEntityMap.set(entity.id, entity);
