@@ -20,9 +20,13 @@ global.Server.init();
 global.IOCore.init();
 global.Physics.init();
 
-let IOUtils = require('./Utils/IOUtils');
-let Entity = require('./Entity/Entity');
+const IOUtils = require('./Utils/IOUtils');
+const Entity = require('./Entity/Entity');
 
-let ground = new Entity(10, 1, 10, 0);
+let ground = new Entity();
+ground.setMass(0);
+ground.setSize(40, 1, 40);
+ground.setPos(0, -10, 0);
+ground.color = 0xA1A1C5;
 
 IOUtils.spawnEntity(ground);

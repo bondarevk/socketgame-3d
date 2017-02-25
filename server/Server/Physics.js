@@ -88,7 +88,7 @@ const Physics = {
     },
 
     tick: () => {
-        Physics.physicsWorld.stepSimulation(1 / 20, 1 / 20);
+        Physics.physicsWorld.stepSimulation(1 / 64, 1 / 64);
 
         for ( let i = 0; i < Physics.rigidBodies.length; i++ ) {
 
@@ -100,6 +100,7 @@ const Physics = {
                 ms.getWorldTransform( Physics._transformAux );
                 let p = Physics._transformAux.getOrigin();
                 let q = Physics._transformAux.getRotation();
+
                 tObject.position.set( p.x(), p.y(), p.z() );
                 tObject.quaternion.set( q.x(), q.y(), q.z(), q.w() );
             }

@@ -7,6 +7,7 @@ class Entity {
 
         this.updateNeeded = false;
         this.requireTick = false;
+        this.color = 0xFFFFFF;
 
         this.tObject = new global.THREE.Object3D();
         this.tObject.position.x = 0;
@@ -16,21 +17,98 @@ class Entity {
         this.tObject.rotation.x = 0;
         this.tObject.rotation.z = 0;
 
-        this.width = width || 1;
-        this.height = height || 1;
-        this.depth = depth || 1;
+        this._width = width || 1;
+        this._height = height || 1;
+        this._depth = depth || 1;
 
-        this.shape = new Ammo.btBoxShape( new Ammo.btVector3( this.width * 0.5, this.height * 0.5, this.depth * 0.5 ));
-        this.shape.setMargin(0.5);
-        this.mass = mass;
+        this._shape = new Ammo.btBoxShape( new Ammo.btVector3( this._width * 0.5, this._height * 0.5, this._depth * 0.5 ));
+        this._shape.setMargin(0.5);
+        this._mass = mass;
         if (mass === undefined) {
-            this.mass = 1;
+            this._mass = 1;
         }
-        this.pObject = global.Physics.createRigidBody(this.tObject, this.shape, this.mass);
+        this.pObject = global.Physics.createRigidBody(this.tObject, this._shape, this._mass);
 
-        this.color = 0xFFFFFF;
 
         this.type = ['BaseEntity'];
+    }
+
+    // Масса
+    setMass(mass) {
+        this._mass = mass;
+        this.pObject.setMassProps(this._mass, new Ammo.btVector3( 0, 0, 0 ));
+        this._shape.calculateLocalInertia( this._mass, new Ammo.btVector3( 0, 0, 0 ) );
+    }
+
+    // Размеры объекта
+    setSize(width, height, depth) {
+        this._width = width;
+        this._height = height;
+        this._depth = depth;
+
+        this._shape = new Ammo.btBoxShape( new Ammo.btVector3( this._width * 0.5, this._height * 0.5, this._depth * 0.5 ));
+        this._shape.setMargin(0.5);
+        this._shape.calculateLocalInertia( this._mass, new Ammo.btVector3( 0, 0, 0 ) );
+        this.pObject.setCollisionShape(this._shape);
+
+        this.requestUpdate();
+    }
+
+    // Координаты
+    setPos(x, y, z) {
+        let transformAux = new Ammo.btTransform();
+        this.pObject.getMotionState().getWorldTransform( transformAux );
+
+        let p = transformAux.getOrigin();
+
+        if (x === undefined) {
+            x = p.x();
+        }
+        if (y === undefined) {
+            y = p.y();
+        }
+        if (z === undefined) {
+            z = p.z();
+        }
+
+        this.tObject.position.x = x;
+        this.tObject.position.y = y;
+        this.tObject.position.z = z;
+        transformAux.setOrigin( new Ammo.btVector3( x, y, z ) );
+
+        this.pObject.setWorldTransform(transformAux);
+        this.pObject.getMotionState().setWorldTransform(transformAux);
+
+        this.requestUpdate();
+    }
+
+    setRotation(x, y, z) {
+        let transformAux = new Ammo.btTransform();
+        this.pObject.getMotionState().getWorldTransform( transformAux );
+
+        let q = transformAux.getRotation();
+
+        if (x === undefined) {
+            x = this.tObject.rotation.x;
+        }
+        if (y === undefined) {
+            y = this.tObject.rotation.y;
+        }
+        if (z === undefined) {
+            z = this.tObject.rotation.z;
+        }
+
+        this.tObject.rotation.x = x;
+        this.tObject.rotation.y = y;
+        this.tObject.rotation.z = z;
+        let quat = new THREE.Quaternion();
+        quat.copy(this.tObject.quaternion);
+        transformAux.setRotation( new Ammo.btQuaternion( quat.x, quat.y, quat.z, quat.w ) );
+
+        this.pObject.setWorldTransform(transformAux);
+        this.pObject.getMotionState().setWorldTransform(transformAux);
+
+        this.requestUpdate();
     }
 
     onTick(tick) {
@@ -50,9 +128,9 @@ class Entity {
             rotationX: this.tObject.rotation.x,
             rotationY: this.tObject.rotation.y,
             rotationZ: this.tObject.rotation.z,
-            width: this.width,
-            height: this.height,
-            depth: this.depth,
+            width: this._width,
+            height: this._height,
+            depth: this._depth,
             color: this.color,
             type: this.type
         };

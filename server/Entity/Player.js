@@ -70,6 +70,7 @@ class Player extends LiveEntity {
 
     onTick(tick) {
 
+
         let keyboard = this.input.keyboard;
 
         if (keyboard.has(87) && keyboard.has(83) && keyboard.has(65) && keyboard.has(68)) {

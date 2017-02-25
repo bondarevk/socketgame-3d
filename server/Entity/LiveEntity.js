@@ -16,7 +16,7 @@ class LiveEntity extends Entity {
             vX: 0.0,
             vY: 0.0,
             vZ: 0.0,
-            speed: 20.0
+            speed: 10.0
         };
 
         this.type.push('BaseLiveEntity');
@@ -46,6 +46,10 @@ class LiveEntity extends Entity {
 
     onTick(tick) {
         super.onTick();
+
+        this.pObject.applyCentralLocalForce( new Ammo.btVector3( this.movement.vX * 10, this.movement.vY * 10, this.movement.vZ * 10 ) );
+        //this.pObject.setLinearVelocity( new Ammo.btVector3( this.movement.vX * 10, this.movement.vY * 10, this.movement.vZ * 10 ) );
+        //this.pObject.applyCentralImpulse(new global.THREE.Vector3(this.movement.vX * 1000000, this.movement.vY * 1000000, this.movement.vZ * 1000000));
 
         //this.object3D.translateX(this.movement.vX * (this.movement.speed / TickManager.tickrate));
         //this.object3D.translateY(this.movement.vY * (this.movement.speed / TickManager.tickrate));
