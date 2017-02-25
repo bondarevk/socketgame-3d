@@ -24,7 +24,8 @@ class ChatMessage {
             month: 'long',
             day: 'numeric',
             hour: 'numeric',
-            minute: 'numeric'
+            minute: 'numeric',
+            second: 'numeric'
         };
 
         return '<li class="' + style + '"><div class="author"><p>' + this.nickname +
@@ -41,6 +42,7 @@ const Chat = {
     _onlineList: $('#onlineList'),
     _messagesList: $('#msgs'),
     _messagesScroll: undefined,
+    onlinePlayersList: [],
 
     init: () => {
         Chat._messagesScroll = new IScroll('#wrapper', {
@@ -84,14 +86,16 @@ const Chat = {
         }
     },
 
-    removePlayerFromOnlineList: (id) => {
-        $("#" + id + "").remove();
+    reloadOnlineList: () => {
+        Chat.clearPlayers();
+        Chat.onlinePlayersList.forEach((id) => {
+            Chat.addPlayerToOnlineList(id);
+        });
     },
 
     clearPlayers: () => {
         Chat._onlineList.empty();
     },
-
 
 
     // Chat
@@ -121,17 +125,6 @@ const Chat = {
         if (autoscroll === true) {
             Chat._messagesScroll.scrollTo(0, Chat._messagesScroll.maxScrollY, 0);
         }
-    },
-
-    getDate: (date) => {
-        let d = new Date(date);
-        let year = d.getFullYear(),
-            mnth = d.getMonth() < 10 ? '0' + (d.getMonth() + 1) : d.getMonth() + 1,
-            day = d.getDate() < 10 ? '0' + d.getDate() : d.getDate(),
-            hour = d.getHours() < 10 ? '0' + d.getHours() : d.getHours(),
-            min = d.getMinutes() < 10 ? '0' + d.getMinutes() : d.getMinutes(),
-            sec = d.getSeconds() < 10 ? '0' + d.getSeconds() : d.getSeconds();
-        return year + '-' + mnth + '-' + day + ' ' + hour + ':' + min + ':' + sec;
     }
 };
 

@@ -9,10 +9,20 @@ let GameUtils = {
 
 
         Game.globalEntityMap.set(entity.id, entity);
+
+        if (entity.type.includes('BasePlayer')) {
+            Chat.onlinePlayersList.push(entity.id);
+            Chat.reloadOnlineList();
+        }
+
         console.log('add, ' + Game.globalEntityMap.size);
     },
 
     deleteEntityById: (id) => {
+        if (Game.globalEntityMap.get(id).type.includes('BasePlayer')) {
+            Chat.onlinePlayersList.splice(Chat.onlinePlayersList.indexOf(id),1);
+            Chat.reloadOnlineList();
+        }
         let entity = Game.globalEntityMap.get(id);
         Game.scene.remove( entity.Object3D );
 
