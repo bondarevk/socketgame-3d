@@ -14,6 +14,7 @@ let Game = {
         dZ: 0,
         eID: null
     },
+    tickrate: 30,
 
     time: 0,
 
@@ -150,6 +151,7 @@ let Game = {
     render: () => {
         let deltaTime = Game.clock.getDelta();
         GameUtils.updateCameraPos();
+        RenderUtils.updatePlayer();
         Game.renderer.render(Game.scene, Game.cameraControls.camera);
         Game.time += deltaTime;
     },

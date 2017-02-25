@@ -18,6 +18,11 @@ let RenderUtils = {
         Game.scene.add(mesh);
 
         return mesh;
+    },
+
+
+    updatePlayer: () => {
+
     }
 
 };

@@ -59,6 +59,8 @@ let GameUtils = {
         Game.cameraBind.dZ = cameraBind.dZ;
     },
 
+
+
     updateCameraPos: () => {
         let cam = Game.cameraControls.controls.getObject();
         if (Game.cameraBind.eID !== null) {

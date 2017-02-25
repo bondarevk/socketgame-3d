@@ -34,11 +34,13 @@ const IO = {
             });
 
             Game.player = packet.player;
+            Game.tickrate = packet.tickrate;
+
             // Input Keys
             Input.setupKeys(packet.inputReq);
 
             // Input Timer
-            IO.InputTimer.start(1000 / packet.tickrate);
+            IO.InputTimer.start(1000 / Game.tickrate);
         });
 
 
