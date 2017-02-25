@@ -46,7 +46,10 @@ let GameUtils = {
     },
 
     clearEntities: () => {
-
+        Game.scene.children.forEach(function(object){
+            Game.scene.remove(object);
+        });
+        Game.createBaseObjects();
     },
 
     bindCamera: (cameraBind) => {

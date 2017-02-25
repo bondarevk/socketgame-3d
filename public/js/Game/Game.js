@@ -55,7 +55,7 @@ let Game = {
     init: () => {
         Game.initGraphics();
         Game.initPointerLock();
-        Game.createObjects();
+        Game.createBaseObjects();
 
         Input.init(Game.container);
         IO.init();
@@ -69,15 +69,10 @@ let Game = {
         Game.clock = new THREE.Clock();
         Game.scene.fog = new THREE.Fog( 0xffffff, 0, 750 );
 
-        let light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
-        light.position.set( 0.5, 1, 0.75 );
-        Game.scene.add( light );
-
         // Камера
         Game.cameraControls.camera = new THREE.PerspectiveCamera(75, Game.container.clientWidth / Game.container.clientHeight, 1, 1000);
 
         Game.cameraControls.controls = new THREE.PointerLockControls( Game.cameraControls.camera );
-        Game.scene.add( Game.cameraControls.controls.getObject() );
 
         // Рендерер
         Game.renderer = new THREE.WebGLRenderer();
@@ -119,11 +114,17 @@ let Game = {
         }, false );
     },
 
-    createObjects: () => {
+    createBaseObjects: () => {
+
+        // Camera
+        Game.scene.add( Game.cameraControls.controls.getObject() );
 
         // Источник света
         let ambientLight = new THREE.AmbientLight(0x404040);
         Game.scene.add(ambientLight);
+        let light = new THREE.HemisphereLight( 0xeeeeff, 0x777788, 0.75 );
+        light.position.set( 0.5, 1, 0.75 );
+        Game.scene.add( light );
 
         // Ground
 
