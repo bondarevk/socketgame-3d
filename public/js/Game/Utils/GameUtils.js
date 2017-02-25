@@ -66,9 +66,6 @@ let GameUtils = {
         if (Game.cameraBind.eID !== null) {
             if (Game.globalEntityMap.has(Game.cameraBind.eID)) {
                 let player = Game.globalEntityMap.get(Game.cameraBind.eID);
-                if (player.Object3D) {
-                    player.Object3D.rotation.y = cam.rotation.y;
-                }
                 cam.position.x = player.posX;
                 cam.position.y = player.posY + player.headHeight;
                 cam.position.z = player.posZ;

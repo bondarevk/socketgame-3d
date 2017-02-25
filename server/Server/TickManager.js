@@ -19,6 +19,8 @@ const TickManager = {
             }
         });
 
+        global.Physics.tick(TickManager._currentTick);
+
         IOUtils.clientEntityMapUpdate();
 
         TickManager._currentTick++;

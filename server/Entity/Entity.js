@@ -2,23 +2,32 @@ let MathUtils = require('../Utils/MathUtils');
 let IOUtils = require('../Utils/IOUtils');
 
 class Entity {
-    constructor() {
+    constructor(width, height, depth, mass) {
         this.id = MathUtils.guid();
 
         this.updateNeeded = false;
         this.requireTick = false;
 
-        this.object3D = new global.THREE.Object3D();
-        this.object3D.position.x = 0;
-        this.object3D.position.y = 1;
-        this.object3D.position.z = 0;
-        this.object3D.rotation.y = 0;
-        this.object3D.rotation.x = 0;
-        this.object3D.rotation.z = 0;
+        this.tObject = new global.THREE.Object3D();
+        this.tObject.position.x = 0;
+        this.tObject.position.y = 1;
+        this.tObject.position.z = 0;
+        this.tObject.rotation.y = 0;
+        this.tObject.rotation.x = 0;
+        this.tObject.rotation.z = 0;
 
-        this.width = 3;
-        this.height = 2;
-        this.depth = 3;
+        this.width = width || 1;
+        this.height = height || 1;
+        this.depth = depth || 1;
+
+        this.shape = new Ammo.btBoxShape( new Ammo.btVector3( this.width * 0.5, this.height * 0.5, this.depth * 0.5 ));
+        this.shape.setMargin(0.5);
+        this.mass = mass;
+        if (mass === undefined) {
+            this.mass = 1;
+        }
+        this.pObject = global.Physics.createRigidBody(this.tObject, this.shape, this.mass);
+
         this.color = 0xFFFFFF;
 
         this.type = ['BaseEntity'];
@@ -35,12 +44,12 @@ class Entity {
     generatePacket() {
         return {
             id: this.id,
-            posX: this.object3D.position.x,
-            posY: this.object3D.position.y,
-            posZ: this.object3D.position.z,
-            rotationX: this.object3D.rotation.x,
-            rotationY: this.object3D.rotation.y,
-            rotationZ: this.object3D.rotation.z,
+            posX: this.tObject.position.x,
+            posY: this.tObject.position.y,
+            posZ: this.tObject.position.z,
+            rotationX: this.tObject.rotation.x,
+            rotationY: this.tObject.rotation.y,
+            rotationZ: this.tObject.rotation.z,
             width: this.width,
             height: this.height,
             depth: this.depth,

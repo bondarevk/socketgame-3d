@@ -47,9 +47,9 @@ class LiveEntity extends Entity {
     onTick(tick) {
         super.onTick();
 
-        this.object3D.translateX(this.movement.vX * (this.movement.speed / TickManager.tickrate));
-        this.object3D.translateY(this.movement.vY * (this.movement.speed / TickManager.tickrate));
-        this.object3D.translateZ(this.movement.vZ * (this.movement.speed / TickManager.tickrate));
+        //this.object3D.translateX(this.movement.vX * (this.movement.speed / TickManager.tickrate));
+        //this.object3D.translateY(this.movement.vY * (this.movement.speed / TickManager.tickrate));
+        //this.object3D.translateZ(this.movement.vZ * (this.movement.speed / TickManager.tickrate));
     }
 
     generatePacket() {

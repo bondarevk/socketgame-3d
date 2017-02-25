@@ -78,7 +78,7 @@ class Player extends LiveEntity {
             let vY = 0;
             let vZ = 0;
 
-            this.object3D.rotation.y = this.input.cameraDirection.yaw;
+            //this.object3D.rotation.y = this.input.cameraDirection.yaw;
 
             if (keyboard.get(65) === true) {
                 vX -= 1.0;

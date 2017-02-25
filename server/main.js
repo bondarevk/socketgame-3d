@@ -1,5 +1,5 @@
 global.THREE = require('./libs/three.module');
-global.AMMO = require('ammo-node');
+global.Ammo = require('ammo-node');
 global.Physics = require('./Server/Physics');
 global.Server = require('./Server/Server');
 global.IOCore = require('./Server/IOCore');
@@ -19,3 +19,10 @@ if (!String.prototype.format) {
 global.Server.init();
 global.IOCore.init();
 global.Physics.init();
+
+let IOUtils = require('./Utils/IOUtils');
+let Entity = require('./Entity/Entity');
+
+let ground = new Entity(10, 1, 10, 0);
+
+IOUtils.spawnEntity(ground);

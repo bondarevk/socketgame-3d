@@ -24,7 +24,7 @@ let Game = {
     },
 
     cameraControls: {
-        firstPerson: true,
+        firstPerson: false,
         camera: undefined,
 
         controls: undefined,

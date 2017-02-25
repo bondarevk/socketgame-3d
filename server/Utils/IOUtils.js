@@ -6,10 +6,13 @@ const IOUtis = {
         socket.emit('clientRunUp', global.IOCore.Packet.clientRunUp(socket));
     },
 
+
+    // Entity
     spawnEntity: (entity) => {
         if (global.Server.addEntity(entity)) {
             global.IOCore.io.emit('spawnEntity', entity.generatePacket());
         }
+        global.Physics.addRigidBody(entity.tObject, entity.pObject);
     },
 
     despawnEntity: (id) => {
@@ -19,6 +22,7 @@ const IOUtis = {
             entity.onDespawn();
 
             global.Server.removeEntityById(id);
+            global.Physics.removeRigidBody(entity.tObject, entity.pObject);
             global.IOCore.io.emit('despawnEntity', id);
         }
     },
