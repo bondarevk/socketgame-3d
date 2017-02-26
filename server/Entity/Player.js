@@ -64,8 +64,6 @@ class Player extends LiveEntity {
         abilitiesMap.set('ml', new Ability(0.1, (player) => {
             console.log(player.input.cameraDirection);
 
-            global.ground.a += 0.1;
-            global.ground.setRotation(undefined, global.ground.a, undefined);
         }));
 
         this.eventEmitter.on('mouseLeft', (tick, player) => {

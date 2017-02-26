@@ -84,38 +84,22 @@ class Entity {
     setRotation(x, y, z) {
         let transform = this.pObject.getCenterOfMassTransform();
 
-        if (x === undefined) {
-            x = this.tObject.rotation.x;
-        }
-        if (y === undefined) {
-            y = this.tObject.rotation.y;
-        }
-        if (z === undefined) {
-            z = this.tObject.rotation.z;
-        }
-
-        console.log('----');
-        console.log(y);
-
         // TODO: FIX ROTATION!
 
 
-        let q1 = new Ammo.btQuaternion(  );
-        q1.setEulerZYX(z, y, x);
-        console.log(q1.x());
-        console.log(q1.y());
-        console.log(q1.z());
-        console.log(q1.w());
-        transform.setRotation(q1);
+        console.log('----');
+        console.log(this.tObject.rotation);
 
+        this.tObject.rotation.set(x, y, z, "XYZ");
 
-        console.log(transform.getRotation().x());
-        console.log(transform.getRotation().y());
-        console.log(transform.getRotation().z());
-        console.log(transform.getRotation().w());
+        let quat = new THREE.Quaternion();
+        quat.copy(this.tObject.quaternion);
+        transform.setRotation(new Ammo.btQuaternion(quat.x, quat.y, quat.z, quat.w));
 
+        //this.tObject.setRotationFromQuaternion(new THREE.Quaternion())
 
-        //this.tObject.quaternion.set(transformAux.getRotation().x(), transformAux.getRotation().y(), transformAux.getRotation().z(), transformAux.getRotation().w());
+        console.log(this.tObject.rotation);
+        console.log('----');
 
 
         this.pObject.setCenterOfMassTransform(transform);

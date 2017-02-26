@@ -29,7 +29,7 @@ global.ground = ground;
 ground.setMass(0);
 ground.setSize(20, 1, 20);
 ground.setPos(0, -10, 0);
-ground.setRotation(0, Math.PI / 4, 0);
+ground.setRotation(0, 4.4, 0);
 ground.color = 0xA1A1C5;
 
 IOUtils.spawnEntity(ground);
