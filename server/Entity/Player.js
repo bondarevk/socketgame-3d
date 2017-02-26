@@ -48,11 +48,13 @@ class Player extends LiveEntity {
         };
         this.headHeight = 1; // Высота камеры от центра модели
 
+        this.color = 0xFFFFFF;
+
         // Events
         this.eventEmitter = new events.EventEmitter();
         this.abilitiesMap = this.abilitiesInit(this.eventEmitter);
 
-        //this.pObject.setAngularFactor( 0, 1, 0 );
+        this.pObject.setAngularFactor( 0, 1, 0 );
 
         this.type.push('BasePlayer');
     }
@@ -68,6 +70,10 @@ class Player extends LiveEntity {
 
         this.eventEmitter.on('mouseLeft', (tick, player) => {
             player.abilitiesMap.get('ml').tryUse(tick, player);
+
+            this.pObject.applyCentralLocalForce( new Ammo.btVector3( 0, 20, 0 ) );
+            //global.ground.setPosition(undefined, global.ground.tObject.position.y - 1, undefined);
+
         });
 
         return abilitiesMap;
@@ -85,7 +91,7 @@ class Player extends LiveEntity {
             let vZ = 0;
 
             //console.log(this.input.cameraDirection.yaw);
-            //this.setRotation(undefined, this.input.cameraDirection.yaw, undefined);
+            this.setRotation(0, this.input.cameraDirection.yaw, 0);
             //this.object3D.rotation.y = this.input.cameraDirection.yaw;
 
             if (keyboard.get(65) === true) {

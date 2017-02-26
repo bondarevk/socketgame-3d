@@ -90,14 +90,8 @@ const Physics = {
             let origin = transform.getOrigin();
             let rotation = transform.getRotation();
 
-
-
-            console.log('!!!!');
-            console.log(tObject.rotation);
             tObject.position.set( origin.x(), origin.y(), origin.z() );
             tObject.quaternion.set( rotation.x(), rotation.y(), rotation.z(), rotation.w() );
-            console.log(tObject.rotation);
-            console.log('!!!!');
         }
     }
 

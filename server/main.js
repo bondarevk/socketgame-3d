@@ -28,7 +28,7 @@ ground.a = 0;
 global.ground = ground;
 ground.setMass(0);
 ground.setSize(20, 1, 20);
-ground.setPos(0, -10, 0);
+ground.setPosition(0, -10, 0);
 ground.setRotation(0, 4.4, 0);
 ground.color = 0xA1A1C5;
 
@@ -39,7 +39,7 @@ IOUtils.spawnEntity(ground);
 let box = new Entity();
 box.setMass(0);
 box.setSize(3, 1, 3);
-box.setPos(0, -9, 0);
+box.setPosition(0, -9, 0);
 box.setRotation(0, 0, 0);
 box.color = 0xFFFFFF;
 IOUtils.spawnEntity(box);

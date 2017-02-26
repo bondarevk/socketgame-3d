@@ -25,8 +25,8 @@ const TickManager = {
 
         TickManager._currentTick++;
 
-        global.ground.a += 0.02;
-        global.ground.setRotation(0.0, global.ground.a, 0.0);
+        global.ground.a += 0.01;
+        global.ground.setRotation(0, global.ground.a, 0);
     }
 };
 

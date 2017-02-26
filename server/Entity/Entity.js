@@ -55,26 +55,26 @@ class Entity {
     }
 
     // Координаты
-    setPos(x, y, z) {
+    setPosition(x, y, z) {
         let transform = this.pObject.getCenterOfMassTransform();
         let origin = transform.getOrigin();
 
         if (x === undefined) {
-            x = origin.x();
+            x = this.tObject.position.x;
         }
         if (y === undefined) {
-            y = origin.y();
+            y = this.tObject.position.y;
         }
         if (z === undefined) {
-            z = origin.z();
+            z = this.tObject.position.z;
         }
 
-        this.tObject.position.x = x;
-        this.tObject.position.y = y;
-        this.tObject.position.z = z;
+        this.tObject.position.set(x, y, z, "XYZ");
 
+        let pos = new THREE.Vector3();
+        pos.copy(this.tObject.position);
 
-        transform.setOrigin( new Ammo.btVector3( x, y, z ) );
+        transform.setOrigin( new Ammo.btVector3( pos.x, pos.y, pos.z ) );
 
 
         this.pObject.setCenterOfMassTransform(transform);
@@ -84,23 +84,23 @@ class Entity {
     setRotation(x, y, z) {
         let transform = this.pObject.getCenterOfMassTransform();
 
+        if (x === undefined) {
+            x = this.tObject.rotation.x;
+        }
+        if (y === undefined) {
+            y = this.tObject.rotation.y;
+        }
+        if (z === undefined) {
+            z = this.tObject.rotation.z;
+        }
+
         // TODO: FIX ROTATION!
-
-
-        console.log('----');
-        console.log(this.tObject.rotation);
 
         this.tObject.rotation.set(x, y, z, "XYZ");
 
         let quat = new THREE.Quaternion();
         quat.copy(this.tObject.quaternion);
         transform.setRotation(new Ammo.btQuaternion(quat.x, quat.y, quat.z, quat.w));
-
-        //this.tObject.setRotationFromQuaternion(new THREE.Quaternion())
-
-        console.log(this.tObject.rotation);
-        console.log('----');
-
 
         this.pObject.setCenterOfMassTransform(transform);
 
