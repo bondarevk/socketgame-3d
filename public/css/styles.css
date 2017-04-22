@@ -60,12 +60,12 @@ html, body {
     font-family: MainFont, serif;
     font-weight: 400;
     font-size: 30px;
-    color: #F2F2F2;
+    color: #7f7e4e;
     margin: auto;
 }
 
 .item {
-    background-color: #78B518;
+    background-color: #efebf0;
     border: 4px outset #808080;
     border-radius: 10px;
 }
@@ -104,7 +104,7 @@ html, body {
 .onlineBox {
     margin: 10px;
     flex: 1 1 auto;
-    background-color: #bad7a6;
+    background-color: #f5f2ff;
     border: 2pt solid #808080;
     overflow-y: auto;
 }
@@ -134,7 +134,7 @@ html, body {
     width: 92%;
     margin: 10px 3.2%;
     border: 2pt solid #808080;
-    background: #bad7a6;
+    background: #f5f2ff;
     overflow: hidden;
     flex: 1 1 auto;
 }
@@ -156,8 +156,8 @@ html, body {
     opacity: 0.75;
     display: block;
     margin: 10px 60px 10px 8px;
-    background-color: #AED374;
-    border: 3pt solid #416803;
+    background-color: #d3d2bd;
+    border: 2pt solid #5e5b68;
     height: auto;
 }
 
@@ -165,8 +165,8 @@ html, body {
     opacity: 0.75;
     display: block;
     margin: 10px 8px 10px 60px;
-    background-color: #78B518;
-    border: 3pt solid #213402;
+    background-color: #d3d2bd;
+    border: 2pt solid #5e5b68;
     height: auto;
 }
 
@@ -223,9 +223,8 @@ html, body {
 
 .send-button {
     height: 28px;
-    width: 28px;
     margin-left: 8px;
-    background: grey;
+    background: #d3d8de;
     background-size: cover;
 }
 .message-input {

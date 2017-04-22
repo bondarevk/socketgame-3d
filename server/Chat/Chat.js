@@ -1,5 +1,6 @@
 const IOUtils = require('../Utils/IOUtils');
 const MathUtils = require('../Utils/MathUtils');
+const escape = require('html-escape');
 
 class Message {
     constructor(nickname, text, sender, style) {
@@ -9,6 +10,8 @@ class Message {
         this.sender = sender || 0;
         this.date = Date.now();
         this.style = style || '';
+
+        this.text = escape(text);
     }
 }
 

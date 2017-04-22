@@ -8,10 +8,7 @@ if (!String.prototype.format) {
     String.prototype.format = function() {
         let args = arguments;
         return this.replace(/{(\d+)}/g, function(match, number) {
-            return typeof args[number] != 'undefined'
-                ? args[number]
-                : match
-                ;
+            return args[number] !== undefined ? args[number] : match;
         });
     };
 }
@@ -33,8 +30,6 @@ ground.setRotation(0, 4.4, 0);
 ground.color = 0xA1A1C5;
 
 IOUtils.spawnEntity(ground);
-
-
 
 let box = new Entity();
 box.setMass(0);

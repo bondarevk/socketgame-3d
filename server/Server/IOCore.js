@@ -7,14 +7,14 @@ const TickManager = require('./TickManager');
 const Chat = require('../Chat/Chat');
 const Player = require('../Entity/Player');
 
-const serverPort = 80;
+const serverPort = 8080;
 
 const IOCore = {
 
     io: require('socket.io')(httpServer),
 
     init: () => {
-        expressServer.use(express.static('../public'));
+        expressServer.use(express.static('./public'));
         httpServer.listen(serverPort, function () {
             console.log('Сервер запущен. *:' + serverPort);
         });
