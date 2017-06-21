@@ -1,4 +1,4 @@
->Express, Socket.io, Tree.js, Ammo.js
+>Express, Socket.io, Three.js, Ammo.js
 
 ```
 npm i
